@@ -97,4 +97,5 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
+# 图片下载保存的本地地址
 IMAGES_STORE = 'F:\Girls-Images\\'

@@ -27,12 +27,14 @@ class MeizituPipeline(ImagesPipeline):
         return filename
 
     def get_media_requests(self, item, info):
+        """ 这里做了一个查重判断，如果跟数据库重复则不进行下载"""
         isnot = self.table.find_one({'name':item['name']})
         if not isnot:
             for img_url in item['img_urls']:
                 yield scrapy.Request(img_url,meta={'item':item})
 
     def item_completed(self, results, item, info):
+        """ 如何不进行下载，则 img_paths 为空，就会删除掉item，也就不会保存至数据库"""
         img_paths = [x['path'] for ok, x in results if ok]
         if not img_paths:
             raise DropItem('Item contains no images')
@@ -43,9 +45,6 @@ class MeizituPipeline(ImagesPipeline):
         path = re.sub(r'[？\\*|“<>:/]','',str(path))
         return path
 
-
-    # def process_item(self, item, spider):
-    #     return item
 
 class save_mongodb(object):
     def __init__(self, mongo_db, mongo_uri):
@@ -67,6 +66,7 @@ class save_mongodb(object):
         self.client.close()
 
     def process_item(self, item, spider):
+        """ 这里在插入数据库之前，又做了一次查重操作"""
         self.db['meizitu'].update({'name':item['name']},{'$set':item},True)
         return item
 
