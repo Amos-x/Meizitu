@@ -14,10 +14,25 @@ BOT_NAME = 'meizitu'
 SPIDER_MODULES = ['meizitu.spiders']
 NEWSPIDER_MODULE = 'meizitu.spiders'
 
+# mongodb数据库信息
 MONGO_URI = 'localhost'
 MONGO_DB = 'meizitu'
 
+# redis数据库信息
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_PASSWORD = 'wyx379833553'
+# redis数据库中代理队列的名称
+REDIS_PROXYPOOL_NAME = 'proxies'
+
+# 显示的日志等级
 LOG_LEVEL = 'INFO'
+
+# 下载超时时间
+DOWNLOAD_TIMEOUT = 10
+
+# 图片下载保存的本地地址
+IMAGES_STORE = 'F:\Girls-Images\\'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
@@ -59,8 +74,8 @@ ROBOTSTXT_OBEY = False
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'meizitu.middlewares.RandomUserAgent': 400,
-   'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None
+   'meizitu.middlewares.RandomUserAgent': 402,
+   'meizitu.middlewares.Myproxymiddleware':752
 }
 
 # Enable or disable extensions
@@ -97,5 +112,3 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-# 图片下载保存的本地地址
-IMAGES_STORE = 'F:\Girls-Images\\'

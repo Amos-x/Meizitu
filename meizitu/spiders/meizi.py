@@ -4,9 +4,8 @@ from meizitu.items import MeizituItem
 
 class MeiziSpider(scrapy.Spider):
     name = "meizi"
-    allowed_domains = ["www.mzitu.com",'i.meizitu.net']
-    start_urls = ['http://www.mzitu.com/']
     url = 'http://www.mzitu.com/all/'
+    httpstatus_allow_list = [514]
 
     def start_requests(self):
         yield scrapy.Request(self.url, callback=self.next_url)

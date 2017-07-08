@@ -9,7 +9,7 @@ from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
 import scrapy
 import re
-from .settings import MONGO_URI,MONGO_DB
+from meizitu.settings import MONGO_URI,MONGO_DB
 
 class MeizituPipeline(ImagesPipeline):
     client = pymongo.MongoClient(MONGO_URI)
@@ -17,6 +17,7 @@ class MeizituPipeline(ImagesPipeline):
     table = db['meizitu']
 
     def file_path(self, request, response=None, info=None):
+        """自定义文件名和存储结构"""
         item = request.meta['item']
         folder = item['name']
         folder_strip = MeizituPipeline.strip(folder)
@@ -31,10 +32,10 @@ class MeizituPipeline(ImagesPipeline):
         isnot = self.table.find_one({'name':item['name']})
         if not isnot:
             for img_url in item['img_urls']:
-                yield scrapy.Request(img_url,meta={'item':item})
+                yield scrapy.Request(img_url,meta={'item':item,'dont_proxy':True})
 
     def item_completed(self, results, item, info):
-        """ 如何不进行下载，则 img_paths 为空，就会删除掉item，也就不会保存至数据库"""
+        """ 如果下载的文件为空，则 img_paths 为空，就会删除掉item，也就不会保存至数据库"""
         img_paths = [x['path'] for ok, x in results if ok]
         if not img_paths:
             raise DropItem('Item contains no images')
@@ -42,7 +43,8 @@ class MeizituPipeline(ImagesPipeline):
 
     @staticmethod
     def strip(path):
-        path = re.sub(r'[？\\*|“<>:/]','',str(path))
+        # 去除掉新建文件时无法作为名称的字符
+        path = re.sub(r'[？?\\*|“<>:/]','',str(path))
         return path
 
 
@@ -69,4 +71,3 @@ class save_mongodb(object):
         """ 这里在插入数据库之前，又做了一次查重操作"""
         self.db['meizitu'].update({'name':item['name']},{'$set':item},True)
         return item
-
