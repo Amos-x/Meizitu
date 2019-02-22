@@ -2,6 +2,7 @@
 import scrapy
 from meizitu.items import MeizituItem
 
+
 class MeiziSpider(scrapy.Spider):
     name = "meizi"
     url = 'http://www.mzitu.com/all/'

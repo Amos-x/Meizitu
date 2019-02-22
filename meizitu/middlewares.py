@@ -13,6 +13,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class MeizituSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
@@ -59,6 +60,7 @@ class MeizituSpiderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
 
 class RandomUserAgent(UserAgentMiddleware):
 
@@ -134,8 +136,3 @@ class Myproxymiddleware(object):
         new_request = request.copy()
         new_request.dont_filter = True
         return new_request
-
-
-
-
-

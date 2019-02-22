@@ -32,10 +32,10 @@ LOG_LEVEL = 'INFO'
 DOWNLOAD_TIMEOUT = 10
 
 # 图片下载保存的本地地址
-IMAGES_STORE = 'F:\Girls-Images\\'
+IMAGES_STORE = '/Users/Amos/Girls-Images/'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
 
 # HTTPERROR_ALLOWED_CODES = [304]
 
@@ -75,7 +75,7 @@ ROBOTSTXT_OBEY = False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    'meizitu.middlewares.RandomUserAgent': 402,
-   'meizitu.middlewares.Myproxymiddleware':752
+   # 'meizitu.middlewares.Myproxymiddleware':752
 }
 
 # Enable or disable extensions

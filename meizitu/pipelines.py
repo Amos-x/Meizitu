@@ -11,6 +11,7 @@ import scrapy
 import re
 from meizitu.settings import MONGO_URI,MONGO_DB
 
+
 class MeizituPipeline(ImagesPipeline):
     client = pymongo.MongoClient(MONGO_URI)
     db = client[MONGO_DB]
